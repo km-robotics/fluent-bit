@@ -67,13 +67,14 @@ COPY conf/fluent-bit.conf \
 FROM arm64v8/debian:buster-slim
 COPY --from=builder /usr/bin/qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
-RUN apt-get update && \
+RUN echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/backports.list && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
       libssl1.1 \
       libsasl2-2 \
       pkg-config \
       libpq5 \
-      libsystemd0 \
+      libsystemd0/buster-backports \
       zlib1g \
       ca-certificates
 
